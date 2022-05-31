@@ -7,9 +7,8 @@ import (
 	"strings"
 )
 
-// Download the package.json file from given GitHub link
-// and return the body of the response received.
-func getPackage(u string) (res interface{}, err error) {
+// Download the package.json file from given GitHub link and return the body of the response received.
+func GetPackage(u string) (res interface{}, err error) {
 	branch := "main"
 	rootURL := "https://raw.githubusercontent.com/" + u + "/" + branch + "/package.json"
 
@@ -27,9 +26,11 @@ func getPackage(u string) (res interface{}, err error) {
 	return
 }
 
-// Get the package name and version from the format
-// it is stored inside package.json.
-func getSemanticVersion(ver string) (string, string) {
+// Get the package name and version from the format it is stored inside package.json.
+func GetSemanticVersion(ver string) (string, string) {
 	s := strings.Split(ver, "@")
-	return s[0], s[1]
+	if len(s) == 2 {
+		return s[0], s[1]
+	}
+	return "", ""
 }

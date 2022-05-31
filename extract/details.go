@@ -14,6 +14,7 @@ import (
 	d "github.com/varuuntiwari/dyte-vit-2022-varuuntiwari/data"
 )
 
+// Get username and repository name from URL
 func GetDetails(x d.RepoInput) (user, repo string, err error) {
 	// Check if URL is valid
 	if match, _ := re.MatchString("^(http|https)://github.com/[A-Za-z0-9-]{2,}/[A-Za-z0-9_-]+$", x.Link); !match {
@@ -44,12 +45,12 @@ func GetDetails(x d.RepoInput) (user, repo string, err error) {
 // which it extracts the versions and returns whether the
 // condition is satisfied or not.
 func GetDependency(ver string, url string) (version string, fulfilled bool, err error) {
-	resp, e := getPackage(url)
+	resp, e := GetPackage(url)
 	if e != nil {
 		err = errors.New("cannot get package.json")
 		return
 	}
-	packName, packVersion := getSemanticVersion(ver)
+	packName, packVersion := GetSemanticVersion(ver)
 	tmp := resp.(map[string]interface{})["dependencies"].(map[string]interface{})[packName]
 	givenVersion := tmp.(string)[1:]
 	return givenVersion, d.CompareVersions(packVersion, givenVersion), nil

@@ -21,6 +21,7 @@ type RepoOutput struct {
 	Link      string
 	Version   string
 	Satisfied bool
+	PRUpdate  string
 }
 
 // Compare versions of required dependency version
